@@ -1,4 +1,3 @@
-// Fetch & Display Countries
 function whenUserTypes() {
 	// Get Input
 	var location = document.getElementById("location").value;
@@ -25,14 +24,13 @@ var count = 1;
 var countryJSON;
 var countrycode;
 var zmw;
-// Get Target Country Weather Data
 countries.addEventListener("click", function(event){
 	var country = event.srcElement.innerText;
 	fetch('https://crossorigin.me/http://autocomplete.wunderground.com/aq?query=' + country)
 		.then(function(res) {
 			return res.json();
 		}).then(function(data) {
-			if (country === "Singapore") {
+			if(country === "Singapore") {
 				countrycode = data.RESULTS[1].c;
 				zmw = "zmw:" + data.RESULTS[1].zmw;
 				countryJSON = "http://api.wunderground.com/api/268a6794b0827993/geolookup/conditions/forecast/q/" + zmw + ".json";
@@ -52,7 +50,7 @@ countries.addEventListener("click", function(event){
 				var weatherIcon = data.current_observation.icon_url;
 				var img = document.createElement('img');
 				img.src = weatherIcon;
-
+				$('#weather').html("");
 				$('#listing').html("");
 				$('#weather').append('<p>' + event.srcElement.innerText + '</p>');
 				$('#weather').append('<p>'+ data.current_observation.weather + '</p>');
@@ -94,10 +92,11 @@ countries.addEventListener("click", function(event){
 	document.getElementById("countries").innerHTML = "";
 });
 
-//Swap Center Element With Clicked On Element
 var botElement;
+//Swap Current With Clicked On Item
 var bot = document.querySelector('.bottom');
 bot.addEventListener('click', function(e) {
+	// Swap name with central name
 	botElement = e.srcElement.innerText;
 	var centralElement = document.querySelector('#weather p').innerText;
 	e.srcElement.innerText = centralElement;
@@ -105,6 +104,7 @@ bot.addEventListener('click', function(e) {
 	   val = localStorage.getItem(i);
 	   var valName = JSON.parse(val).name;
 	   if(botElement === valName) {
+
 	   		document.querySelectorAll('#weather p:nth-child(1)')[0].innerText = JSON.parse(val).name;
 	   		document.querySelectorAll('#weather p:nth-child(2)')[0].innerText = JSON.parse(val).weather;
 	   		document.querySelectorAll('#weather img')[0].src = JSON.parse(val).url;
